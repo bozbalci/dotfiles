@@ -1,0 +1,20 @@
+# vim: set filetype=gitconfig
+{{ if eq .chezmoi.hostname "tinker" }}
+[user]
+  email = bozbalci@apple.com
+  name = Berk Ozbalci
+[commit]
+  gpgsign = true
+[gpg]
+  format = x509
+[gpg "x509"]
+  program = /usr/local/bin/ac-sign
+{{ else }}
+[user]
+	email = github@bozbalci.me
+	name = Berk Ozbalci
+{{ end }}
+[core]
+	editor = nvim
+[push]
+	autoSetupRemote = true
