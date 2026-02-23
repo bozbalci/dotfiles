@@ -1,0 +1,78 @@
+# vim: set filetype=zsh :
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+############################################################
+# oh-my-zsh
+############################################################
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+############################################################
+# Editor
+############################################################
+export EDITOR="nvim"
+alias vim="nvim"
+
+
+############################################################
+# Local variables
+############################################################
+if [[ -d "$HOME/.local/bin" ]]; then
+  path=(~/.local/bin $path)
+  if [[ -f "$HOME/.local/bin/env" ]]; then
+    . "$HOME/.local/bin/env"
+  fi
+fi
+
+############################################################
+# Functions
+############################################################
+install_required_plugins_for_dotfiles ()
+{
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+}
+
+############################################################
+# Path
+############################################################
+typeset -gU fpath path
+
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  path=($FNM_PATH $path)
+  eval "`fnm env`"
+fi
+
+export PNPM_HOME="$HOME/.local/share/pnpm"
+if [ -d "$PNPM_HOME" ]; then
+  path=($PNPM_HOME $path)
+fi
+
+# opencode
+OPENCODE_PATH="$HOME/.opencode/bin"
+if [ -d "$OPENCODE_PATH" ]; then
+  path=($OPENCODE_PATH $path)
+fi
+
+path=(~/.cargo/bin $path)
+
+{{ if eq .chezmoi.hostname "tinker" }}
+############################################################
+# Work specific stuff
+############################################################
+export JARVIS_HUB_DIR=~/src/JarvisHub
+path=($JARVIS_HUB_DIR $path)
+path=($(npm config get prefix)/bin $path)
+{{ end }}
+

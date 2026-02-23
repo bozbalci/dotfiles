@@ -1,0 +1,11 @@
+# vim: set filetype=zsh :
+
+{{ if eq .chezmoi.hostname "tinker" }}
+export JDK_21=applejdk-21.jdk
+export JDK_17=applejdk-17.jdk
+export JDK=$JDK_21
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/$JDK/Contents/Home
+
+path=($JAVA_HOME/bin $path)
+{{ end }}
+
