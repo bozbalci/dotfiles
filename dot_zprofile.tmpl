@@ -1,6 +1,6 @@
 # vim: set filetype=zsh :
 {{ if eq .chezmoi.os "darwin" }}
-eval "$(brew shellenv zsh)"
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 {{ if eq .chezmoi.hostname "tinker" }}
 export USE_AWS_PS1=false
 source ~/.aws_profile
