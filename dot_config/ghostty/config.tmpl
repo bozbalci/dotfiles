@@ -11,3 +11,6 @@ shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
 background-opacity = 1
 background-blur = false
 
+{{ if eq .chezmoi.os "darwin" }}
+keybind = global:cmd+enter=new_window
+{{ end }}
