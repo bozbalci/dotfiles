@@ -77,3 +77,10 @@ path=($JARVIS_HUB_DIR $path)
 path=($(npm config get prefix)/bin $path)
 {{ end }}
 
+{{ if eq .chezmoi.os "linux" }}
+############################################################
+# Linux specific stuff
+############################################################
+alias open="xdg-open"
+{{ end }}
+
